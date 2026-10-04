@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Connect — Chat App</title>
+<meta name="description" content="Join conversations instantly. Room-based realtime chat — no account needed." />
+<meta name="theme-color" content="#0b0f1a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='.55' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M18 24h28M18 32h20M18 40h14' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+<div class="bg-orbs" aria-hidden="true">
+  <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+</div>
+
+<!-- ══════════════════ JOIN SCREEN ══════════════════ -->
+<section id="join-screen" class="screen join-screen">
+  <div class="join-wrap">
+
+    <div class="join-card">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="34" height="34">
+            <defs>
+              <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6366f1"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="16" fill="url(#bg1)"/>
+            <path d="M18 24h28M18 32h20M18 40h14" stroke="white" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Connect</h1>
+          <p class="brand-sub">Join conversations instantly</p>
+        </div>
+      </div>
+
+      <form id="join-form" class="join-form" autocomplete="off" novalidate>
+        <label class="field">
+          <span class="field-label">Username</span>
+          <span class="field-box">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <input id="name-input" name="username" type="text" placeholder="e.g. haider" maxlength="20" autocomplete="nickname" required />
+          </span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Room ID</span>
+          <span class="field-box">
+            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <input id="room-input" name="room" type="text" placeholder="e.g. general" maxlength="32" required />
+            <button type="button" class="field-btn" id="dice-btn" title="Random room ID" aria-label="Generate a random room ID">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
+            </button>
+          </span>
+        </label>
+
+        <p id="join-error" class="join-error" role="alert" hidden></p>
+
+        <button id="join-btn" class="btn btn-primary" type="submit">
+          <span class="btn-label">Enter Chat Room</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+
+      <div id="recent-chip" class="recent-chip" hidden>
+        <span>Jump back in:</span>
+        <button type="button" id="recent-btn" class="chip"></button>
+      </div>
+    </div>
+
+    <aside class="join-aside">
+      <div class="tip-card">
+        <div class="tip-head">
+          <span class="tip-dot" aria-hidden="true"></span>
+          <h2>Quick Tip</h2>
+        </div>
+        <p>Share the same <strong>room ID</strong> with friends to start chatting together in real-time.</p>
+        <p class="muted">No account needed — just pick a name and join.</p>
+      </div>
+      <ul class="feature-list">
+        <li><span class="fi"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span> Instant, realtime delivery</li>
+        <li><span class="fi"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span> Rooms vanish when everyone leaves</li>
+        <li><span class="fi"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M20 12.5c0 3.6-3.6 6.5-8 6.5a9 9 0 0 1-2.6-.4L5 20.5l1.1-3.2A6.6 6.6 0 0 1 4 12.5C4 8.9 7.6 6 12 6s8 2.9 8 6.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span> Typing indicators &amp; live member list</li>
+      </ul>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ══════════════════ CHAT SCREEN ══════════════════ -->
+<section id="chat-screen" class="screen chat-screen" hidden>
+
+  <div id="drawer-scrim" class="scrim" hidden></div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-head">
+      <div class="brand small">
+        <div class="brand-mark mini" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="24" height="24">
+            <rect width="64" height="64" rx="16" fill="url(#bg1)"/>
+            <path d="M18 24h28M18 32h20M18 40h14" stroke="white" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>Connect</h2>
+      </div>
+      <button class="icon-btn sidebar-close" id="sidebar-close" aria-label="Close members panel">✕</button>
+    </div>
+
+    <div class="room-block">
+      <span class="eyebrow">Room</span>
+      <div class="room-name-row">
+        <h3 id="sidebar-room">—</h3>
+        <button id="copy-btn" class="icon-btn" title="Copy invite link" aria-label="Copy invite link">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15 5.5A2.5 2.5 0 0 0 12.5 3h-6A3.5 3.5 0 0 0 3 6.5v6A2.5 2.5 0 0 0 5.5 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <button id="share-btn" class="btn btn-ghost small">Invite people</button>
+
+      <div id="invite-panel" class="invite-panel" hidden>
+        <div class="invite-head">
+          <span>Share this link</span>
+          <button type="button" id="invite-close" class="icon-btn tiny" aria-label="Close invite panel">✕</button>
+        </div>
+        <input id="invite-input" class="invite-input" type="text" readonly spellcheck="false" aria-label="Invite link" />
+        <p id="invite-hint" class="invite-hint">Copy the link below and send it to a friend.</p>
+        <button type="button" id="invite-again" class="btn btn-ghost small">Copy link</button>
+      </div>
+    </div>
+
+    <div class="members">
+      <div class="members-head">
+        <span class="eyebrow">Members</span>
+        <span id="online-count" class="badge">0</span>
+      </div>
+      <ul id="member-list" class="member-list"></ul>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="me-row">
+        <span id="me-avatar" class="avatar">?</span>
+        <div class="me-meta">
+          <strong id="me-name">—</strong>
+          <span id="conn-state" class="conn"><i class="conn-dot"></i><span id="conn-text">connecting…</span></span>
+        </div>
+      </div>
+      <button id="leave-btn" class="btn btn-danger small">Leave room</button>
+    </div>
+  </aside>
+
+  <main class="chat">
+    <header class="chat-head">
+      <button class="icon-btn drawer-btn" id="drawer-btn" aria-label="Show members">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="chat-title">
+        <h2 id="chat-room">—</h2>
+        <p class="sub"><span id="head-count">0 online</span> · <span id="head-transport">realtime</span></p>
+      </div>
+
+      <div class="chat-actions">
+        <button id="sound-btn" class="icon-btn" title="Toggle notification sound" aria-label="Toggle notification sound" aria-pressed="true">
+          <svg class="ico-on" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 20a2 2 0 0 1-3.4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="ico-off" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M18 8a6 6 0 0 0-9.3-5M6.2 6.2C6.1 6.8 6 7.4 6 8c0 7-3 8-3 8h14M13.7 20a2 2 0 0 1-3.4 0M2 2l20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div id="banner" class="banner" hidden><span id="banner-text">Reconnecting…</span></div>
+
+    <div id="messages" class="messages" role="log" aria-live="polite">
+      <div id="empty-state" class="empty-state">
+        <div class="empty-emoji" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="56" height="56"><defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset=".6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M40 24c0 7.2-7.2 13-16 13a18.6 18.6 0 0 1-5.2-.7L10 41l2.2-6.4A12.8 12.8 0 0 1 8 24c0-7.2 7.2-13 16-13s16 5.8 16 13Z" fill="none" stroke="url(#eg)" stroke-width="2.6" stroke-linejoin="round"/><circle cx="19" cy="24" r="1.9" fill="#8b5cf6"/><circle cx="26" cy="24" r="1.9" fill="#8b5cf6"/><circle cx="33" cy="24" r="1.9" fill="#8b5cf6"/></svg>
+        </div>
+        <h3>You're the first one here</h3>
+        <p>Say hi, or share the room ID <strong id="empty-room">—</strong> with friends so they can join.</p>
+      </div>
+    </div>
+
+    <button id="jump-btn" class="jump-btn" hidden>
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="jump-count" class="jump-count" hidden>0</span>
+    </button>
+
+    <div id="typing-line" class="typing-line" aria-live="polite"></div>
+
+    <form id="composer" class="composer" autocomplete="off">
+      <div class="composer-box">
+        <textarea id="msg-input" rows="1" placeholder="Type a message…" maxlength="2000" aria-label="Message"></textarea>
+        <button type="button" id="emoji-btn" class="icon-btn" aria-label="Insert emoji">
+          <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="9.5" r="1.15" fill="currentColor"/><circle cx="15" cy="9.5" r="1.15" fill="currentColor"/></svg>
+        </button>
+        <button type="submit" id="send-btn" class="send-btn" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M4 12 20 4l-3 16-5.5-5.5L4 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M11.5 14.5 20 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="composer-foot">
+        <span id="counter" class="counter" hidden></span>
+        <span class="hint"><kbd>Enter</kbd> to send · <kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line</span>
+      </div>
+      <div id="emoji-panel" class="emoji-panel" hidden></div>
+    </form>
+  </main>
+</section>
+
+<div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+<script src="./app.js"></script>
+</body>
+</html>

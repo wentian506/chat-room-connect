@@ -1,0 +1,18 @@
+# Connect — single-container deploy.
+#   docker compose up -d      → http://localhost:3000
+services:
+  connect:
+    build: .
+    image: connect-chat
+    container_name: connect
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3

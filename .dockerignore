@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+screenshots
+test
+README.md
+DEPLOY.md
+deploy

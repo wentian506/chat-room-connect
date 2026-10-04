@@ -1,0 +1,29 @@
+# /etc/systemd/system/connect.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now connect
+[Unit]
+Description=Connect chat server
+Documentation=https://github.com/your-user/connect
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=connect
+Group=connect
+WorkingDirectory=/opt/connect
+ExecStart=/usr/bin/node server.js
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=0.0.0.0
+Restart=always
+RestartSec=2
+
+# hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/connect
+
+[Install]
+WantedBy=multi-user.target

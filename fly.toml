@@ -1,0 +1,31 @@
+# Fly.io deploy:  fly launch --no-deploy  (keep this file)  then  fly deploy
+# Region "bom" = Mumbai. Pick the closest region to your users: fly platform regions
+app = "connect-chat"
+primary_region = "bom"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  HOST = "0.0.0.0"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Chat needs a live process. Suspending machines would drop every socket and
+  # wipe room state (it lives in memory), so keep one running at all times.
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[checks.health]
+  type = "http"
+  port = 8080
+  path = "/health"
+  interval = "30s"
+  timeout = "3s"
